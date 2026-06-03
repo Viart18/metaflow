@@ -11,7 +11,7 @@ jobs:
 
     steps:
     - name: checkout stage
-      uses: action/checkout@v4
+      uses: actions/checkout@v4
 
     - name: setup Python
       uses: actions/setup-python@v5
@@ -32,7 +32,7 @@ jobs:
         target: "/opt/metaflow"
 
     - name: deploy on ec2
-      uses: appleboy/ssh-action@v1.03
+      uses: appleboy/ssh-action@v1.0.3
       with:
         host: "43.204.22.48"
         username: "ubuntu"
