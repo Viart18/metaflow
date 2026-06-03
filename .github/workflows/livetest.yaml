@@ -28,6 +28,7 @@ jobs:
       with:
         host: "43.204.22.48"
         username: "ubuntu"
+        key: ${{ secrets.EC2_SSH_KEY }}
         source: "."
         target: "/opt/metaflow"
 
@@ -36,6 +37,7 @@ jobs:
       with:
         host: "43.204.22.48"
         username: "ubuntu"
+        key: ${{ secrets.EC2_SSH_KEY }}
         script: |
           cd /opt/metaflow
           python2 -m venv venv || true
