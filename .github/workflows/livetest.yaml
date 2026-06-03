@@ -1,0 +1,45 @@
+name: Deploy to ec2
+
+on:
+  push:
+    branch:
+    - demotest
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout stage
+      uses: action/checkout@v4
+
+    - name: setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3"
+
+    - name: install Dependency
+      run: |
+        pip install --upgrade pip
+        pip install .
+
+    - name: copy code to ec2
+      uses: easingthemes/ssh-deploy@v2.1.5
+      with:
+        host: "43.204.22.48"
+        username: "ubuntu"
+        source: "."
+        target: "/opt/metaflow"
+
+    - name: deploy on ec2
+      uses: appleboy/ssh-action@v1.03
+      with:
+        host: "43.204.22.48"
+        username: "ubuntu"
+        script: |
+          cd /opt/metaflow
+          python2 -m venv venv || true
+          source venv/bin/active
+          pip install --upgrade pip
+          pip install -e .
+          sudo systemctl restart metaflow || true
